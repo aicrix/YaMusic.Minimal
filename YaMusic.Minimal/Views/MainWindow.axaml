@@ -1,0 +1,107 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:YaMusic.Minimal.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+        xmlns:ic="using:Avalonia.Xaml.Interactions.Custom"
+        xmlns:ail="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="48" d:DesignHeight="240"
+        Width="{Binding WindowWidth}" Height="{Binding WindowHeight}"
+        Topmost="True"
+        Background="Transparent"
+        SystemDecorations="None"
+        CanResize="False"
+        Loaded="MainWindow_Loaded"
+        x:Class="YaMusic.Minimal.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="YaMusic.Minimal">
+
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+
+  <Panel>
+    <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource SystemAltMediumColor}" PointerPressed="DragWindow" IsVisible="{Binding IsMinimalModeVisible}">
+      <mi:MaterialIcon Kind="MusicCircleOutline" Width="48" Height="48" Foreground="#fed42b"/>
+      <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="DoubleTapped">
+          <ia:InvokeCommandAction Command="{Binding DoubleTapCommand}"/>
+        </ia:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Border>
+    <Grid ColumnDefinitions="*, 48">
+      <Border Grid.Column="0" ClipToBounds="True" Background="{DynamicResource SystemAltMediumColor}" BorderBrush="{DynamicResource SystemBaseLowColor}" BorderThickness="1" CornerRadius="24" IsVisible="{Binding IsFullModeVisible}">
+        <ScrollViewer>
+          <ItemsControl ItemsSource="{Binding Tracks}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Border Width="240" Height="60">
+                  <Grid ColumnDefinitions="60, *">
+                    <Border Grid.Column="0">
+                      <Border.Background>
+                        <ImageBrush ail:ImageBrushLoader.Source="{Binding ArtworkUrl}"/>
+                      </Border.Background>
+                    </Border>
+                    <Grid Grid.Column="1" RowDefinitions="*, *">
+                      <TextBlock Grid.Row="0" Text="{Binding Title}" FontWeight="SemiBold"/>
+                      <TextBlock Grid.Row="1" Text="{Binding Author}"/>
+                    </Grid>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      </Border>
+      <Grid Grid.Column="1" RowDefinitions="auto, auto, auto, auto, auto" IsVisible="{Binding IsStandardModeVisible}">
+        <Button Grid.Row="0" Classes="media" CornerRadius="24 24 0 0" Command="{Binding ShuffleCommand}">
+          <mi:MaterialIcon Width="20" Height="20" Classes.shuffle-on="{Binding IsShuffleOn}" Classes.shuffle-off="{Binding !IsShuffleOn}"/>
+        </Button>
+        <Button Grid.Row="1" Classes="media" CornerRadius="0" Command="{Binding PlayPauseMusicCommand}" CommandParameter="prev">
+          <mi:MaterialIcon Kind="ChevronLeft"/>
+        </Button>
+        <Button Grid.Row="2" Classes="media" CornerRadius="0" Command="{Binding PlayPauseMusicCommand}" CommandParameter="play_pause">
+          <mi:MaterialIcon Classes.paused="{Binding !IsPlaying}" Classes.playing="{Binding IsPlaying}"/>
+        </Button>
+        <Button Grid.Row="3" Classes="media" CornerRadius="0" Command="{Binding PlayPauseMusicCommand}" CommandParameter="next">
+          <mi:MaterialIcon Kind="ChevronRight"/>
+        </Button>
+        <Button Grid.Row="4" Classes="media" CornerRadius="0 0 24 24" Command="{Binding ExpandCommand}">
+          <mi:MaterialIcon Width="20" Height="20" Classes.expanded="{Binding IsFullModeVisible}" Classes.minimized="{Binding !IsFullModeVisible}"/>
+        </Button>
+
+        <Grid.Styles>
+          <Style Selector="mi|MaterialIcon">
+            <Setter Property="Width" Value="34"/>
+            <Setter Property="Height" Value="34"/>
+          </Style>
+          <Style Selector="mi|MaterialIcon.paused">
+            <Setter Property="Kind" Value="Play"/>
+          </Style>
+          <Style Selector="mi|MaterialIcon.playing">
+            <Setter Property="Kind" Value="Pause"/>
+          </Style>
+          <Style Selector="mi|MaterialIcon.shuffle-on">
+            <Setter Property="Kind" Value="Shuffle"/>
+          </Style>
+          <Style Selector="mi|MaterialIcon.shuffle-off">
+            <Setter Property="Kind" Value="ShuffleDisabled"/>
+          </Style>
+          <Style Selector="mi|MaterialIcon.expanded">
+            <Setter Property="Kind" Value="UnfoldLessVertical"/>
+          </Style>
+          <Style Selector="mi|MaterialIcon.minimized">
+            <Setter Property="Kind" Value="ExpandVertical"/>
+          </Style>
+        </Grid.Styles>
+      </Grid>
+    </Grid>
+  </Panel>
+
+</Window>
