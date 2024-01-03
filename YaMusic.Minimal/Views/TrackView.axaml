@@ -8,7 +8,7 @@
              Height="60"
              x:Class="YaMusic.Minimal.Views.TrackView"
              x:DataType="vm:TrackViewModel">
-  <Border>
+  <Border Classes.selected="{Binding IsPlaying}">
     <Grid ColumnDefinitions="60, *">
       <Border Grid.Column="0" ClipToBounds="True" Width="52" Height="52" HorizontalAlignment="Left" CornerRadius="6">
         <Image ail:ImageLoader.Source="{Binding ArtworkUrl}"/>
@@ -19,4 +19,13 @@
       </Grid>
     </Grid>
   </Border>
+
+  <UserControl.Styles>
+    <Style Selector="Border.selected">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="Border">
+      <Setter Property="Background" Value="{DynamicResource SystemAltMediumColor}"/>
+    </Style>
+  </UserControl.Styles>
 </UserControl>
