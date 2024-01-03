@@ -122,7 +122,6 @@ namespace YaMusic.Minimal.ViewModels
         {
             var httpClient = new HttpClient();
             var authService = new YandexMusicAuthService(httpClient);
-            var credentialProvider = new YandexCredentialsProvider(authService, "Isfandiyor2005", "AIprod2005_", "y0_AgAAAABVD1L9AAG8XgAAAAD05-9Q8ryX4IoCSGCX5TdjrhjNmuL80qM");
             musicMainResolver = new YandexMusicMainResolver(credentialProvider, httpClient);
 
             var playlist = await musicMainResolver.PlaylistLoader.LoadPlaylist("yamusic-my2023", "5089719");
