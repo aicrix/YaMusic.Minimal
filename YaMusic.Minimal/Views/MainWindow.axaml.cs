@@ -27,7 +27,7 @@ namespace YaMusic.Minimal.Views
 
         private void MainWindow_PositionChanged(object? sender, PixelPointEventArgs e)
         {
-            if (Position.X != Screens.Primary.Bounds.Width - margin - Width)
+            if (Position.X != Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling))
             {
                 Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling)), Position.Y);
             }
@@ -42,14 +42,6 @@ namespace YaMusic.Minimal.Views
         private void DragWindow(object? sender, PointerPressedEventArgs e)
         {
             BeginMoveDrag(e);
-        }
-
-        private void Button_Clicked(object? sender, RoutedEventArgs e)
-        {
-            if (Position.X != Screens.Primary.Bounds.Width - margin - Width)
-            {
-                Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling)), Position.Y);
-            }
         }
     }
 }
