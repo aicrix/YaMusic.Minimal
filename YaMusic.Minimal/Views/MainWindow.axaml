@@ -72,7 +72,7 @@
         <Button Grid.Row="3" Classes="media" CornerRadius="0" Command="{Binding PlayPauseMusicCommand}" CommandParameter="next">
           <mi:MaterialIcon Kind="ChevronRight"/>
         </Button>
-        <Button Grid.Row="4" Classes="media" CornerRadius="0 0 24 24" Command="{Binding ExpandCommand}">
+        <Button Grid.Row="4" Classes="media" CornerRadius="0 0 24 24" Command="{Binding ExpandCommand}" Click="Button_Clicked">
           <mi:MaterialIcon Width="20" Height="20" Classes.expanded="{Binding IsFullModeVisible}" Classes.minimized="{Binding !IsFullModeVisible}"/>
         </Button>
 

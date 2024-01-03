@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.ReactiveUI;
 using System;
 using YaMusic.Minimal.ViewModels;
@@ -15,16 +16,7 @@ namespace YaMusic.Minimal.Views
         {
             InitializeComponent();
             PositionChanged += MainWindow_PositionChanged;
-            SizeChanged += MainWindow_SizeChanged;
             Closing += MainWindow_Closing;
-        }
-
-        private void MainWindow_SizeChanged(object? sender, SizeChangedEventArgs e)
-        {
-            if (Position.X != Screens.Primary.Bounds.Width - margin - Width)
-            {
-                Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling)), Position.Y);
-            }
         }
 
         private void MainWindow_Closing(object? sender, WindowClosingEventArgs e)
@@ -50,6 +42,14 @@ namespace YaMusic.Minimal.Views
         private void DragWindow(object? sender, PointerPressedEventArgs e)
         {
             BeginMoveDrag(e);
+        }
+
+        private void Button_Clicked(object? sender, RoutedEventArgs e)
+        {
+            if (Position.X != Screens.Primary.Bounds.Width - margin - Width)
+            {
+                Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling)), Position.Y);
+            }
         }
     }
 }
