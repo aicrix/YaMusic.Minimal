@@ -5,7 +5,18 @@
              xmlns:vm="using:YaMusic.Minimal.ViewModels"
              xmlns:ail="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
              mc:Ignorable="d" d:DesignWidth="240" d:DesignHeight="60"
+             Height="60"
              x:Class="YaMusic.Minimal.Views.TrackView"
              x:DataType="vm:TrackViewModel">
-  Welcome to Avalonia!
+  <Border>
+    <Grid ColumnDefinitions="60, *">
+      <Border Grid.Column="0" ClipToBounds="True" Width="52" Height="52" HorizontalAlignment="Left" CornerRadius="6">
+        <Image ail:ImageLoader.Source="{Binding ArtworkUrl}"/>
+      </Border>
+      <Grid Grid.Column="1" RowDefinitions="*, *">
+        <TextBlock Grid.Row="0" Text="{Binding Title}" FontWeight="SemiBold" VerticalAlignment="Bottom"/>
+        <TextBlock Grid.Row="1" Text="{Binding Author}" FontWeight="UltraLight" VerticalAlignment="Top"/>
+      </Grid>
+    </Grid>
+  </Border>
 </UserControl>

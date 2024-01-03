@@ -35,7 +35,7 @@ namespace YaMusic.Minimal.ViewModels
 
         private Random random = new Random();
 
-        public ObservableCollection<YandexMusicTrack> Tracks { get; set; } = new();
+        public ObservableCollection<TrackViewModel> Tracks { get; set; } = new();
 
         public WaveOutEvent outputDevice;
 
@@ -58,7 +58,7 @@ namespace YaMusic.Minimal.ViewModels
             {
                 return ReactiveCommand.Create(() =>
                 {
-                    WindowWidth = IsFullModeVisible ? 48 : 288;
+                    WindowWidth = IsFullModeVisible ? 48 : 292;
                     IsFullModeVisible = !IsFullModeVisible;
                 });
             }
@@ -128,7 +128,7 @@ namespace YaMusic.Minimal.ViewModels
             var playlist = await musicMainResolver.PlaylistLoader.LoadPlaylist("yamusic-my2023", "5089719");
             var tracks = await playlist.LoadDataAsync();
 
-            Tracks.AddRange(tracks);
+            Tracks.AddRange(tracks.Select(x => new TrackViewModel(x)));
 
             outputDevice = new();
             outputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;

@@ -16,7 +16,13 @@ namespace YaMusic.Minimal.Views
         {
             InitializeComponent();
             PositionChanged += MainWindow_PositionChanged;
+            SizeChanged += MainWindow_SizeChanged;
             Closing += MainWindow_Closing;
+        }
+
+        private void MainWindow_SizeChanged(object? sender, SizeChangedEventArgs e)
+        {
+            Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling)), Position.Y);
         }
 
         private void MainWindow_Closing(object? sender, WindowClosingEventArgs e)
@@ -33,7 +39,7 @@ namespace YaMusic.Minimal.Views
             }
         }
 
-        private void MainWindow_Loaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        private void MainWindow_Loaded(object? sender, RoutedEventArgs e)
         {
             //Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - margin - Width), Screens.Primary.Bounds.Height / 2);
             Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling)), Screens.Primary.Bounds.Height / 2);
