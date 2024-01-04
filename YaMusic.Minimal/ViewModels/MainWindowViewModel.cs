@@ -58,7 +58,7 @@ namespace YaMusic.Minimal.ViewModels
             {
                 return ReactiveCommand.Create(() =>
                 {
-                    WindowWidth = IsFullModeVisible ? 48 : 294;
+                    WindowWidth = IsFullModeVisible ? 48 : 314;
                     IsFullModeVisible = !IsFullModeVisible;
                 });
             }
@@ -69,6 +69,18 @@ namespace YaMusic.Minimal.ViewModels
         public ReactiveCommand<Unit, Unit> ShuffleCommand => ReactiveCommand.Create(() =>
         {
             IsShuffleOn = !IsShuffleOn;
+        });
+
+        public ReactiveCommand<long, Unit> PlayTrackCommand => ReactiveCommand.Create<long>( async (id) =>
+        {
+            IsPlaying = true;
+            trackIndex = Tracks.IndexOf(Tracks.First(x => x.Id == id));
+            Tracks[trackIndex].IsPlaying = true;
+            trackUrl = await musicMainResolver.DirectUrlLoader.GetDirectUrl(Tracks[trackIndex].Id);
+            isManuallyStopped = true;
+            outputDevice.Stop();
+            outputDevice.Init(new MediaFoundationReader(trackUrl));
+            outputDevice.Play();
         });
 
         public bool IsMinimalModeVisible

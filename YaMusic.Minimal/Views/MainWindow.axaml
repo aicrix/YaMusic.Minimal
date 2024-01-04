@@ -9,7 +9,7 @@
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
         xmlns:ic="using:Avalonia.Xaml.Interactions.Custom"
         xmlns:ail="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
-        mc:Ignorable="d" d:DesignWidth="48" d:DesignHeight="240"
+        mc:Ignorable="d" d:DesignWidth="48" d:DesignHeight="314"
         Width="{Binding WindowWidth}" Height="{Binding WindowHeight}"
         Topmost="True"
         Background="Transparent"
@@ -38,18 +38,38 @@
       </i:Interaction.Behaviors>
     </Border>
     <Grid ColumnDefinitions="*, 48">
-      <Border Grid.Column="0" Width="240" ClipToBounds="True" BorderBrush="{DynamicResource SystemBaseLowColor}" BorderThickness="1" CornerRadius="24" IsVisible="{Binding IsFullModeVisible}">
+      <Border Grid.Column="0" Width="260" ClipToBounds="True" BorderBrush="{DynamicResource SystemBaseLowColor}" BorderThickness="1" CornerRadius="24" IsVisible="{Binding IsFullModeVisible}">
         <ScrollViewer>
           <ItemsControl ItemsSource="{Binding Tracks}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
-                <v:TrackView DataContext="{Binding}">
-                  <i:Interaction.Behaviors>
-                    <ia:EventTriggerBehavior EventName="Tapped">
-                      <ia:InvokeCommandAction Command="{Binding???}"/>
-                    </ia:EventTriggerBehavior>
-                  </i:Interaction.Behaviors>
-                </v:TrackView>
+                <Panel Height="60">
+                  <Border Classes.selected="{Binding IsPlaying}">
+                    <Grid ColumnDefinitions="60, *">
+                      <Border Grid.Column="0" ClipToBounds="True" Width="52" Height="52" HorizontalAlignment="Left" CornerRadius="6">
+                        <Image ail:ImageLoader.Source="{Binding ArtworkUrl}"/>
+                      </Border>
+                      <Grid Grid.Column="1" RowDefinitions="*, *">
+                        <TextBlock Grid.Row="0" Text="{Binding Title}" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Bottom"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Author}" FontWeight="UltraLight" FontSize="13" VerticalAlignment="Top"/>
+                      </Grid>
+                    </Grid>
+                    <i:Interaction.Behaviors>
+                      <ia:EventTriggerBehavior EventName="DoubleTapped">
+                        <ia:InvokeCommandAction Command="{Binding #window.(vm:MainWindowViewModel)DataContext.PlayTrackCommand}" CommandParameter="{Binding Id}"/>
+                      </ia:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                  </Border>
+
+                  <Panel.Styles>
+                    <Style Selector="Border.selected">
+                      <Setter Property="Background" Value="Transparent"/>
+                    </Style>
+                    <Style Selector="Border">
+                      <Setter Property="Background" Value="{DynamicResource SystemAltMediumColor}"/>
+                    </Style>
+                  </Panel.Styles>
+                </Panel>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
