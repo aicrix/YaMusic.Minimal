@@ -1,8 +1,9 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:YaMusic.Minimal.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:YaMusic.Minimal.ViewModels"
+        xmlns:v="using:YaMusic.Minimal.Views"
         xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
@@ -15,6 +16,7 @@
         SystemDecorations="None"
         CanResize="False"
         Loaded="MainWindow_Loaded"
+        Name="window"
         x:Class="YaMusic.Minimal.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -39,7 +41,17 @@
       <Border Grid.Column="0" Width="240" ClipToBounds="True" BorderBrush="{DynamicResource SystemBaseLowColor}" BorderThickness="1" CornerRadius="24" IsVisible="{Binding IsFullModeVisible}">
         <ScrollViewer>
           <ItemsControl ItemsSource="{Binding Tracks}">
-            
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <v:TrackView DataContext="{Binding}">
+                  <i:Interaction.Behaviors>
+                    <ia:EventTriggerBehavior EventName="Tapped">
+                      <ia:InvokeCommandAction Command="{Binding???}"/>
+                    </ia:EventTriggerBehavior>
+                  </i:Interaction.Behaviors>
+                </v:TrackView>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
           </ItemsControl>
         </ScrollViewer>
       </Border>
