@@ -35,7 +35,7 @@ namespace YaMusic.Minimal.ViewModels
 
         private Random random = new Random();
 
-        public ObservableCollection<YandexMusicTrack> Tracks { get; set; } = new();
+        public ObservableCollection<TrackViewModel> Tracks { get; set; } = new();
 
         public WaveOutEvent outputDevice;
 
@@ -58,7 +58,7 @@ namespace YaMusic.Minimal.ViewModels
             {
                 return ReactiveCommand.Create(() =>
                 {
-                    WindowWidth = IsFullModeVisible ? 48 : 288;
+                    WindowWidth = IsFullModeVisible ? 48 : 294;
                     IsFullModeVisible = !IsFullModeVisible;
                 });
             }
@@ -122,12 +122,13 @@ namespace YaMusic.Minimal.ViewModels
         {
             var httpClient = new HttpClient();
             var authService = new YandexMusicAuthService(httpClient);
+            var credentialProvider = new YandexCredentialsProvider(authService, Secrets.Login, Secrets.Password, Secrets.Token);
             musicMainResolver = new YandexMusicMainResolver(credentialProvider, httpClient);
 
             var playlist = await musicMainResolver.PlaylistLoader.LoadPlaylist("yamusic-my2023", "5089719");
             var tracks = await playlist.LoadDataAsync();
 
-            Tracks.AddRange(tracks);
+            Tracks.AddRange(tracks.Select(x => new TrackViewModel(x)));
 
             outputDevice = new();
             outputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;
@@ -140,6 +141,11 @@ namespace YaMusic.Minimal.ViewModels
             if (!isManuallyStopped)
             {
                 trackIndex = IsShuffleOn ? random.Next(Tracks.Count) : trackIndex + 1;
+                if (Tracks.Count(x => x.IsPlaying) > 0)
+                {
+                    Tracks.First(x => x.IsPlaying).IsPlaying = false;
+                }
+                Tracks[trackIndex].IsPlaying = true;
                 trackUrl = await musicMainResolver.DirectUrlLoader.GetDirectUrl(Tracks[trackIndex].Id);
                 outputDevice.Stop();
                 outputDevice.Init(new MediaFoundationReader(trackUrl));
@@ -154,12 +160,21 @@ namespace YaMusic.Minimal.ViewModels
             {
                 case "play_pause":
                     IsPlaying = !IsPlaying;
+                    if (Tracks.Count(x => x.IsPlaying) < 1)
+                    {
+                        Tracks[trackIndex].IsPlaying = true;
+                    }
                     if (outputDevice.PlaybackState == PlaybackState.Playing) outputDevice.Pause();
                     else outputDevice.Play();
                     break;
                 case "prev":
                     IsPlaying = true;
                     trackIndex--;
+                    if (Tracks.Count(x => x.IsPlaying) > 0)
+                    {
+                        Tracks.First(x => x.IsPlaying).IsPlaying = false;
+                    }
+                    Tracks[trackIndex].IsPlaying = true;
                     trackUrl = await musicMainResolver.DirectUrlLoader.GetDirectUrl(Tracks[trackIndex].Id);
                     isManuallyStopped = true;
                     outputDevice.Stop();
@@ -170,6 +185,11 @@ namespace YaMusic.Minimal.ViewModels
                     IsPlaying = true;
                     trackIndex = IsShuffleOn ? random.Next(Tracks.Count) : trackIndex + 1;
                     trackUrl = await musicMainResolver.DirectUrlLoader.GetDirectUrl(Tracks[trackIndex].Id);
+                    if (Tracks.Count(x => x.IsPlaying) > 0)
+                    {
+                        Tracks.First(x => x.IsPlaying).IsPlaying = false;
+                    }
+                    Tracks[trackIndex].IsPlaying = true;
                     isManuallyStopped = true;
                     outputDevice.Stop();
                     outputDevice.Init(new MediaFoundationReader(trackUrl));

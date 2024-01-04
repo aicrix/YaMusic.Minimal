@@ -36,26 +36,10 @@
       </i:Interaction.Behaviors>
     </Border>
     <Grid ColumnDefinitions="*, 48">
-      <Border Grid.Column="0" ClipToBounds="True" Background="{DynamicResource SystemAltMediumColor}" BorderBrush="{DynamicResource SystemBaseLowColor}" BorderThickness="1" CornerRadius="24" IsVisible="{Binding IsFullModeVisible}">
+      <Border Grid.Column="0" Width="240" ClipToBounds="True" BorderBrush="{DynamicResource SystemBaseLowColor}" BorderThickness="1" CornerRadius="24" IsVisible="{Binding IsFullModeVisible}">
         <ScrollViewer>
           <ItemsControl ItemsSource="{Binding Tracks}">
-            <ItemsControl.ItemTemplate>
-              <DataTemplate>
-                <Border Width="240" Height="60">
-                  <Grid ColumnDefinitions="60, *">
-                    <Border Grid.Column="0">
-                      <Border.Background>
-                        <ImageBrush ail:ImageBrushLoader.Source="{Binding ArtworkUrl}"/>
-                      </Border.Background>
-                    </Border>
-                    <Grid Grid.Column="1" RowDefinitions="*, *">
-                      <TextBlock Grid.Row="0" Text="{Binding Title}" FontWeight="SemiBold"/>
-                      <TextBlock Grid.Row="1" Text="{Binding Author}"/>
-                    </Grid>
-                  </Grid>
-                </Border>
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
+            
           </ItemsControl>
         </ScrollViewer>
       </Border>
