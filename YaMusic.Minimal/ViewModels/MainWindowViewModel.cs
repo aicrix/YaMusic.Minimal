@@ -122,6 +122,7 @@ namespace YaMusic.Minimal.ViewModels
         {
             var httpClient = new HttpClient();
             var authService = new YandexMusicAuthService(httpClient);
+            var credentialProvider = new YandexCredentialsProvider(authService, Secrets.Login, Secrets.Password, Secrets.Token);
             musicMainResolver = new YandexMusicMainResolver(credentialProvider, httpClient);
 
             var playlist = await musicMainResolver.PlaylistLoader.LoadPlaylist("yamusic-my2023", "5089719");
@@ -162,7 +163,7 @@ namespace YaMusic.Minimal.ViewModels
                     if (Tracks.Count(x => x.IsPlaying) < 1)
                     {
                         Tracks[trackIndex].IsPlaying = true;
-                    }          
+                    }
                     if (outputDevice.PlaybackState == PlaybackState.Playing) outputDevice.Pause();
                     else outputDevice.Play();
                     break;
