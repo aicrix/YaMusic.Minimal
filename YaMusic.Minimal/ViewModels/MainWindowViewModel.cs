@@ -79,7 +79,7 @@ namespace YaMusic.Minimal.ViewModels
             trackUrl = await musicMainResolver.DirectUrlLoader.GetDirectUrl(Tracks[trackIndex].Id);
             isManuallyStopped = true;
             outputDevice.Stop();
-            outputDevice.Init(new MediaFoundationReader(trackUrl));
+            outputDevice.Init(new MediaFoundationReader(trackUrl)); 
             outputDevice.Play();
         });
 
