@@ -57,9 +57,9 @@ namespace YaMusic.Minimal.ViewModels
             get
             {
                 return ReactiveCommand.Create(() =>
-                {
+                {                    
                     WindowWidth = IsFullModeVisible ? 48 : 314;
-                    IsFullModeVisible = !IsFullModeVisible;
+                    IsFullModeVisible = !IsFullModeVisible;               
                 });
             }
         }

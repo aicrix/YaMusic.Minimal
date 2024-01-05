@@ -16,8 +16,8 @@ namespace YaMusic.Minimal.Views
         {
             InitializeComponent();
             PositionChanged += MainWindow_PositionChanged;
-            SizeChanged += MainWindow_SizeChanged;
             Closing += MainWindow_Closing;
+            SizeChanged += MainWindow_SizeChanged;
         }
 
         private void MainWindow_SizeChanged(object? sender, SizeChangedEventArgs e)

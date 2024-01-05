@@ -43,35 +43,32 @@
           <ItemsControl ItemsSource="{Binding Tracks}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
-                <Panel Height="60">
-                  <Border Classes.selected="{Binding IsPlaying}">
-                    <Grid ColumnDefinitions="60, *">
-                      <Border Grid.Column="0" ClipToBounds="True" Width="52" Height="52" HorizontalAlignment="Left" CornerRadius="6">
-                        <Image ail:ImageLoader.Source="{Binding ArtworkUrl}"/>
-                      </Border>
-                      <Grid Grid.Column="1" RowDefinitions="*, *">
-                        <TextBlock Grid.Row="0" Text="{Binding Title}" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Bottom"/>
-                        <TextBlock Grid.Row="1" Text="{Binding Author}" FontWeight="UltraLight" FontSize="13" VerticalAlignment="Top"/>
-                      </Grid>
+                <Border Classes.selected="{Binding IsPlaying}">
+                  <Grid ColumnDefinitions="60, *">
+                    <Border Grid.Column="0" ClipToBounds="True" Width="52" Height="52" HorizontalAlignment="Left" CornerRadius="6">
+                      <Image ail:ImageLoader.Source="{Binding ArtworkUrl}"/>
+                    </Border>
+                    <Grid Grid.Column="1" RowDefinitions="*, *">
+                      <TextBlock Grid.Row="0" Text="{Binding Title}" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Bottom"/>
+                      <TextBlock Grid.Row="1" Text="{Binding Author}" FontWeight="UltraLight" FontSize="13" VerticalAlignment="Top"/>
                     </Grid>
-                    <i:Interaction.Behaviors>
-                      <ia:EventTriggerBehavior EventName="DoubleTapped">
-                        <ia:InvokeCommandAction Command="{Binding #window.(vm:MainWindowViewModel)DataContext.PlayTrackCommand}" CommandParameter="{Binding Id}"/>
-                      </ia:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                  </Border>
-
-                  <Panel.Styles>
-                    <Style Selector="Border.selected">
-                      <Setter Property="Background" Value="Transparent"/>
-                    </Style>
-                    <Style Selector="Border">
-                      <Setter Property="Background" Value="{DynamicResource SystemAltMediumColor}"/>
-                    </Style>
-                  </Panel.Styles>
-                </Panel>
+                  </Grid>
+                  <i:Interaction.Behaviors>
+                    <ia:EventTriggerBehavior EventName="DoubleTapped">
+                      <ia:InvokeCommandAction Command="{Binding #window.(vm:MainWindowViewModel)DataContext.PlayTrackCommand}" CommandParameter="{Binding Id}"/>
+                    </ia:EventTriggerBehavior>
+                  </i:Interaction.Behaviors>
+                </Border>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
+            <ItemsControl.Styles>
+              <Style Selector="Border.selected">
+                <Setter Property="Background" Value="Transparent"/>
+              </Style>
+              <Style Selector="Border">
+                <Setter Property="Background" Value="{DynamicResource SystemAltMediumColor}"/>
+              </Style>
+            </ItemsControl.Styles>
           </ItemsControl>
         </ScrollViewer>
       </Border>
