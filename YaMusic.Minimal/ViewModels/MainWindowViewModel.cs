@@ -39,6 +39,8 @@ namespace YaMusic.Minimal.ViewModels
 
         public WaveOutEvent outputDevice;
 
+        #region Commands
+
         public ReactiveCommand<Unit, Unit> DoubleTapCommand
         {
             get
@@ -83,6 +85,10 @@ namespace YaMusic.Minimal.ViewModels
             outputDevice.Play();
         });
 
+        #endregion
+
+        #region Reactive properties
+
         public bool IsMinimalModeVisible
         {
             get => isMinimalModeVisible;
@@ -124,6 +130,8 @@ namespace YaMusic.Minimal.ViewModels
             get => windowHeight;
             set => this.RaiseAndSetIfChanged(ref windowHeight, value);
         }
+
+        #endregion
 
         public MainWindowViewModel()
         {
