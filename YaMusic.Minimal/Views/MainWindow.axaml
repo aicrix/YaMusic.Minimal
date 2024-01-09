@@ -13,6 +13,7 @@
         Width="{Binding WindowWidth}" Height="{Binding WindowHeight}"
         Topmost="True"
         Background="Transparent"
+        TransparencyLevelHint="AcrylicBlur"
         SystemDecorations="None"
         CanResize="False"
         Loaded="MainWindow_Loaded"

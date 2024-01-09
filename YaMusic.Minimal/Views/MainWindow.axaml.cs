@@ -4,6 +4,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.ReactiveUI;
 using System;
+using System.Threading.Tasks;
 using YaMusic.Minimal.ViewModels;
 
 namespace YaMusic.Minimal.Views
@@ -18,17 +19,17 @@ namespace YaMusic.Minimal.Views
             PositionChanged += MainWindow_PositionChanged;
             Closing += MainWindow_Closing;
             SizeChanged += MainWindow_SizeChanged;
+            Deactivated += MainWindow_Deactivated;
+        }
+
+        private void DragWindow(object? sender, PointerPressedEventArgs e)
+        {
+            BeginMoveDrag(e);
         }
 
         private void MainWindow_SizeChanged(object? sender, SizeChangedEventArgs e)
         {
             Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling)), Position.Y);
-        }
-
-        private void MainWindow_Closing(object? sender, WindowClosingEventArgs e)
-        {
-            ViewModel.outputDevice.Stop();
-            ViewModel.outputDevice.Dispose();
         }
 
         private void MainWindow_PositionChanged(object? sender, PixelPointEventArgs e)
@@ -45,9 +46,23 @@ namespace YaMusic.Minimal.Views
             Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling)), Screens.Primary.Bounds.Height / 2);
         }
 
-        private void DragWindow(object? sender, PointerPressedEventArgs e)
+        private async void MainWindow_Deactivated(object? sender, EventArgs e)
         {
-            BeginMoveDrag(e);
+            if (!ViewModel.IsMinimalModeVisible)
+            {
+                await Task.Delay(3000);
+                ViewModel.IsMinimalModeVisible = true;
+                ViewModel.IsStandardModeVisible = false;
+                ViewModel.IsFullModeVisible = false;
+                Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling)), Position.Y);
+            }
         }
+
+        private void MainWindow_Closing(object? sender, WindowClosingEventArgs e)
+        {
+            ViewModel?.outputDevice.Stop();
+            ViewModel?.outputDevice.Dispose();
+        }
+
     }
 }
