@@ -77,6 +77,10 @@ namespace YaMusic.Minimal.ViewModels
         {
             IsPlaying = true;
             trackIndex = Tracks.IndexOf(Tracks.First(x => x.Id == id));
+            if (Tracks.Count(x => x.IsPlaying) > 0)
+            {
+                Tracks.First(x => x.IsPlaying).IsPlaying = false;
+            }
             Tracks[trackIndex].IsPlaying = true;
             trackUrl = await musicMainResolver.DirectUrlLoader.GetDirectUrl(Tracks[trackIndex].Id);
             isManuallyStopped = true;

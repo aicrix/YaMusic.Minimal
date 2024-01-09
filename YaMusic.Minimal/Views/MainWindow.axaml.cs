@@ -4,6 +4,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.ReactiveUI;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using YaMusic.Minimal.ViewModels;
 
@@ -12,14 +13,31 @@ namespace YaMusic.Minimal.Views
     public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
         private readonly double margin = 10;
+        private CancellationTokenSource cancellationTokenSource = new();
+        private CancellationToken token;
 
         public MainWindow()
         {
             InitializeComponent();
+            token = cancellationTokenSource.Token;
+            Activated += MainWindow_Activated;
+            Deactivated += MainWindow_Deactivated;
+            SizeChanged += MainWindow_SizeChanged;
             PositionChanged += MainWindow_PositionChanged;
             Closing += MainWindow_Closing;
-            SizeChanged += MainWindow_SizeChanged;
-            Deactivated += MainWindow_Deactivated;
+        }
+
+        private void MainWindow_Activated(object? sender, EventArgs e)
+        {
+            cancellationTokenSource.Cancel();
+        }
+
+        private async void MainWindow_Deactivated(object? sender, EventArgs e)
+        {
+            if (!ViewModel.IsMinimalModeVisible)
+            {
+                
+            }
         }
 
         private void DragWindow(object? sender, PointerPressedEventArgs e)
@@ -46,23 +64,20 @@ namespace YaMusic.Minimal.Views
             Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling)), Screens.Primary.Bounds.Height / 2);
         }
 
-        private async void MainWindow_Deactivated(object? sender, EventArgs e)
-        {
-            if (!ViewModel.IsMinimalModeVisible)
-            {
-                await Task.Delay(3000);
-                ViewModel.IsMinimalModeVisible = true;
-                ViewModel.IsStandardModeVisible = false;
-                ViewModel.IsFullModeVisible = false;
-                Position = new PixelPoint((int)(Screens.Primary.Bounds.Width - ((Width + margin) * Screens.Primary.Scaling)), Position.Y);
-            }
-        }
-
         private void MainWindow_Closing(object? sender, WindowClosingEventArgs e)
         {
             ViewModel?.outputDevice.Stop();
             ViewModel?.outputDevice.Dispose();
         }
 
+        private async Task Minimize()
+        {
+            await Task.Delay(3000);
+            ViewModel.IsMinimalModeVisible = true;
+            ViewModel.IsStandardModeVisible = false;
+            ViewModel.IsFullModeVisible = false;
+            ViewModel.WindowHeight = 48;
+            ViewModel.WindowWidth = 48;
+        }
     }
 }

@@ -13,7 +13,6 @@
         Width="{Binding WindowWidth}" Height="{Binding WindowHeight}"
         Topmost="True"
         Background="Transparent"
-        TransparencyLevelHint="AcrylicBlur"
         SystemDecorations="None"
         CanResize="False"
         Loaded="MainWindow_Loaded"
@@ -39,39 +38,41 @@
       </i:Interaction.Behaviors>
     </Border>
     <Grid ColumnDefinitions="*, 48">
-      <Border Grid.Column="0" Width="260" ClipToBounds="True" BorderBrush="{DynamicResource SystemBaseLowColor}" BorderThickness="1" CornerRadius="24" IsVisible="{Binding IsFullModeVisible}">
-        <ScrollViewer>
-          <ItemsControl ItemsSource="{Binding Tracks}">
-            <ItemsControl.ItemTemplate>
-              <DataTemplate>
-                <Border Classes.selected="{Binding IsPlaying}">
-                  <Grid ColumnDefinitions="60, *">
-                    <Border Grid.Column="0" ClipToBounds="True" Width="52" Height="52" HorizontalAlignment="Left" CornerRadius="6">
-                      <Image ail:ImageLoader.Source="{Binding ArtworkUrl}"/>
-                    </Border>
-                    <Grid Grid.Column="1" RowDefinitions="*, *">
-                      <TextBlock Grid.Row="0" Text="{Binding Title}" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Bottom"/>
-                      <TextBlock Grid.Row="1" Text="{Binding Author}" FontWeight="UltraLight" FontSize="13" VerticalAlignment="Top"/>
+      <Border Grid.Column="0" Width="260" BorderBrush="{DynamicResource SystemBaseLowColor}" BorderThickness="1" CornerRadius="24" IsVisible="{Binding IsFullModeVisible}">
+        <Border ClipToBounds="True" CornerRadius="24">
+          <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Tracks}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border Classes.selected="{Binding IsPlaying}" Height="60">
+                    <Grid ColumnDefinitions="60, *">
+                      <Border Grid.Column="0" ClipToBounds="True" Width="52" Height="52" HorizontalAlignment="Left" CornerRadius="6">
+                        <Image ail:ImageLoader.Source="{Binding ArtworkUrl}"/>
+                      </Border>
+                      <Grid Grid.Column="1" RowDefinitions="*, *">
+                        <TextBlock Grid.Row="0" Text="{Binding Title}" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Bottom"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Author}" FontWeight="UltraLight" FontSize="13" VerticalAlignment="Top"/>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <i:Interaction.Behaviors>
-                    <ia:EventTriggerBehavior EventName="DoubleTapped">
-                      <ia:InvokeCommandAction Command="{Binding #window.(vm:MainWindowViewModel)DataContext.PlayTrackCommand}" CommandParameter="{Binding Id}"/>
-                    </ia:EventTriggerBehavior>
-                  </i:Interaction.Behaviors>
-                </Border>
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.Styles>
-              <Style Selector="Border.selected">
-                <Setter Property="Background" Value="Transparent"/>
-              </Style>
-              <Style Selector="Border">
-                <Setter Property="Background" Value="{DynamicResource SystemAltMediumColor}"/>
-              </Style>
-            </ItemsControl.Styles>
-          </ItemsControl>
-        </ScrollViewer>
+                    <i:Interaction.Behaviors>
+                      <ia:EventTriggerBehavior EventName="DoubleTapped">
+                        <ia:InvokeCommandAction Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).PlayTrackCommand}" CommandParameter="{Binding Id}"/>
+                      </ia:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+              <ItemsControl.Styles>
+                <Style Selector="Border.selected">
+                  <Setter Property="Background" Value="Transparent"/>
+                </Style>
+                <Style Selector="Border">
+                  <Setter Property="Background" Value="{DynamicResource SystemAltMediumColor}"/>
+                </Style>
+              </ItemsControl.Styles>
+            </ItemsControl>
+          </ScrollViewer>
+        </Border>
       </Border>
       <Grid Grid.Column="1" RowDefinitions="auto, auto, auto, auto, auto" IsVisible="{Binding IsStandardModeVisible}">
         <Button Grid.Row="0" Classes="media" CornerRadius="24 24 0 0" Command="{Binding ShuffleCommand}">
