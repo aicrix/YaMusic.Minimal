@@ -66,7 +66,7 @@ namespace YaMusic.Minimal.ViewModels
             }
         }
 
-        public ReactiveCommand<string, Unit> PlayPauseMusicCommand => ReactiveCommand.CreateFromTask<string>(ControlMusic);
+        public ReactiveCommand<string, Unit> PlayPauseMusicCommand => ReactiveCommand.Create<string>(ControlMusic);
 
         public ReactiveCommand<Unit, Unit> ShuffleCommand => ReactiveCommand.Create(() =>
         {
@@ -178,7 +178,7 @@ namespace YaMusic.Minimal.ViewModels
             else isManuallyStopped = false;
         }
 
-        private async Task ControlMusic(string commandType)
+        private async void ControlMusic(string commandType)
         {
             switch (commandType)
             {

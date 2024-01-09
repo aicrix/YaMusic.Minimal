@@ -55,7 +55,7 @@
                       </Grid>
                     </Grid>
                     <i:Interaction.Behaviors>
-                      <ia:EventTriggerBehavior EventName="DoubleTapped">
+                      <ia:EventTriggerBehavior EventName="Tapped">
                         <ia:InvokeCommandAction Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).PlayTrackCommand}" CommandParameter="{Binding Id}"/>
                       </ia:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
