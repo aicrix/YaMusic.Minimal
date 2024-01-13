@@ -12,6 +12,10 @@ using YandexMusicResolver.Loaders;
 using System.Reactive;
 using NAudio.Wave;
 using System.Threading;
+using Avalonia;
+using Avalonia.Controls;
+using DynamicData.Binding;
+using YaMusic.Minimal.Views;
 
 #nullable disable
 
@@ -41,7 +45,7 @@ namespace YaMusic.Minimal.ViewModels
 
         #region Commands
 
-        public ReactiveCommand<Unit, Unit> DoubleTapCommand
+        public ReactiveCommand<Unit, Unit> ExpandCommand
         {
             get
             {
@@ -54,14 +58,14 @@ namespace YaMusic.Minimal.ViewModels
             }
         }
 
-        public ReactiveCommand<Unit, Unit> ExpandCommand
+        public ReactiveCommand<Unit, Unit> ChangeSizeCommand
         {
             get
             {
                 return ReactiveCommand.Create(() =>
-                {                    
+                {
                     WindowWidth = IsFullModeVisible ? 48 : 314;
-                    IsFullModeVisible = !IsFullModeVisible;               
+                    IsFullModeVisible = !IsFullModeVisible;
                 });
             }
         }
@@ -73,7 +77,7 @@ namespace YaMusic.Minimal.ViewModels
             IsShuffleOn = !IsShuffleOn;
         });
 
-        public ReactiveCommand<long, Unit> PlayTrackCommand => ReactiveCommand.Create<long>( async (id) =>
+        public ReactiveCommand<long, Unit> PlayTrackCommand => ReactiveCommand.Create<long>(async (id) =>
         {
             IsPlaying = true;
             trackIndex = Tracks.IndexOf(Tracks.First(x => x.Id == id));
@@ -85,9 +89,11 @@ namespace YaMusic.Minimal.ViewModels
             trackUrl = await musicMainResolver.DirectUrlLoader.GetDirectUrl(Tracks[trackIndex].Id);
             isManuallyStopped = true;
             outputDevice.Stop();
-            outputDevice.Init(new MediaFoundationReader(trackUrl)); 
+            outputDevice.Init(new MediaFoundationReader(trackUrl));
             outputDevice.Play();
         });
+
+        public ReactiveCommand<MainWindow, Unit> CloseCommand => ReactiveCommand.Create<MainWindow>((window) => window.Close());
 
         #endregion
 
@@ -146,10 +152,10 @@ namespace YaMusic.Minimal.ViewModels
         {
             var httpClient = new HttpClient();
             var authService = new YandexMusicAuthService(httpClient);
-            var credentialProvider = new YandexCredentialsProvider(authService, Secrets.Login, Secrets.Password, Secrets.Token);
+            var credentialProvider = new YandexCredentialsProvider(authService, "Secrets.Token", true);
             musicMainResolver = new YandexMusicMainResolver(credentialProvider, httpClient);
 
-            var playlist = await musicMainResolver.PlaylistLoader.LoadPlaylist("yamusic-my2023", "5089719");
+            var playlist = await musicMainResolver.PlaylistLoader.LoadPlaylist("Isfandiyor2005", "1004");
             var tracks = await playlist.LoadDataAsync();
 
             Tracks.AddRange(tracks.Select(x => new TrackViewModel(x)));

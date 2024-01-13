@@ -31,9 +31,15 @@
   <Panel>
     <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource SystemAltMediumColor}" PointerPressed="DragWindow" IsVisible="{Binding IsMinimalModeVisible}">
       <mi:MaterialIcon Kind="MusicCircleOutline" Width="48" Height="48" Foreground="#fed42b"/>
+      <Border.ContextMenu>
+        <ContextMenu>
+          <MenuItem Header="Expand" Command="{Binding ExpandCommand}"/>
+          <MenuItem Header="Close" Command="{Binding CloseCommand}" CommandParameter="{Binding $parent[Window]}"/>
+        </ContextMenu>
+      </Border.ContextMenu>
       <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior EventName="DoubleTapped">
-          <ia:InvokeCommandAction Command="{Binding DoubleTapCommand}"/>
+          <ia:InvokeCommandAction Command="{Binding ExpandCommand}"/>
         </ia:EventTriggerBehavior>
       </i:Interaction.Behaviors>
     </Border>
@@ -87,7 +93,7 @@
         <Button Grid.Row="3" Classes="media" CornerRadius="0" Command="{Binding PlayPauseMusicCommand}" CommandParameter="next">
           <mi:MaterialIcon Kind="ChevronRight"/>
         </Button>
-        <Button Grid.Row="4" Classes="media" CornerRadius="0 0 24 24" Command="{Binding ExpandCommand}">
+        <Button Grid.Row="4" Classes="media" CornerRadius="0 0 24 24" Command="{Binding ChangeSizeCommand}">
           <mi:MaterialIcon Width="20" Height="20" Classes.expanded="{Binding IsFullModeVisible}" Classes.minimized="{Binding !IsFullModeVisible}"/>
         </Button>
 
