@@ -13,30 +13,30 @@ namespace YaMusic.Minimal.Views
     public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
         private readonly double margin = 10;
-        private CancellationTokenSource cancellationTokenSource = new();
-        private CancellationToken token;
 
         public MainWindow()
         {
             InitializeComponent();
-            token = cancellationTokenSource.Token;
-            Activated += MainWindow_Activated;
             Deactivated += MainWindow_Deactivated;
             SizeChanged += MainWindow_SizeChanged;
             PositionChanged += MainWindow_PositionChanged;
             Closing += MainWindow_Closing;
         }
 
-        private void MainWindow_Activated(object? sender, EventArgs e)
-        {
-            cancellationTokenSource.Cancel();
-        }
-
         private async void MainWindow_Deactivated(object? sender, EventArgs e)
         {
             if (!ViewModel.IsMinimalModeVisible)
             {
-                
+                for (int i = 0; i < 40; i++)
+                {
+                    if (IsActive) return;
+                    await Task.Delay(100);
+                }
+                ViewModel.IsMinimalModeVisible = true;
+                ViewModel.IsStandardModeVisible = false;
+                ViewModel.IsFullModeVisible = false;
+                ViewModel.WindowHeight = 48;
+                ViewModel.WindowWidth = 48;
             }
         }
 
