@@ -4,7 +4,6 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.ReactiveUI;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using YaMusic.Minimal.ViewModels;
 
@@ -12,7 +11,7 @@ namespace YaMusic.Minimal.Views
 {
     public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
-        private readonly double margin = 10;
+        private readonly double margin = 8;
 
         public MainWindow()
         {

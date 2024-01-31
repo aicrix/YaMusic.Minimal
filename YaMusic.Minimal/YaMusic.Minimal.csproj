@@ -26,6 +26,10 @@
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.6" />
     <PackageReference Include="Material.Icons.Avalonia" Version="2.1.0" />
     <PackageReference Include="NAudio" Version="2.2.1" />
-    <PackageReference Include="YandexMusicResolver" Version="5.1.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\isfan\source\repos\YandexMusicResolver\YandexMusicResolver\YandexMusicResolver.csproj" />
   </ItemGroup>
 </Project>

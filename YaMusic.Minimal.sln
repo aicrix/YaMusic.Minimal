@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34407.89
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaMusic.Minimal", "YaMusic.Minimal\YaMusic.Minimal.csproj", "{31AEB01F-DE4C-47C0-B8AC-AA30BB126271}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YaMusic.Minimal", "YaMusic.Minimal\YaMusic.Minimal.csproj", "{31AEB01F-DE4C-47C0-B8AC-AA30BB126271}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YandexMusicResolver", "C:\Users\isfan\source\repos\YandexMusicResolver\YandexMusicResolver\YandexMusicResolver.csproj", "{67EDFA66-2A09-4DD2-BEA0-077D968BC8A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{31AEB01F-DE4C-47C0-B8AC-AA30BB126271}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31AEB01F-DE4C-47C0-B8AC-AA30BB126271}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31AEB01F-DE4C-47C0-B8AC-AA30BB126271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67EDFA66-2A09-4DD2-BEA0-077D968BC8A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67EDFA66-2A09-4DD2-BEA0-077D968BC8A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67EDFA66-2A09-4DD2-BEA0-077D968BC8A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67EDFA66-2A09-4DD2-BEA0-077D968BC8A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

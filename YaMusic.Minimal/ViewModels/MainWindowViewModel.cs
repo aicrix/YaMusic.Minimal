@@ -1,31 +1,22 @@
 ﻿using ReactiveUI;
 using System.Net.Http;
 using System;
-using System.Threading.Tasks;
 using YandexMusicResolver;
 using YandexMusicResolver.Config;
 using System.Linq;
 using System.Collections.ObjectModel;
-using YandexMusicResolver.AudioItems;
 using DynamicData;
-using YandexMusicResolver.Loaders;
 using System.Reactive;
 using NAudio.Wave;
-using System.Threading;
-using Avalonia;
-using Avalonia.Controls;
-using DynamicData.Binding;
 using YaMusic.Minimal.Views;
-
-#nullable disable
 
 namespace YaMusic.Minimal.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private YandexMusicMainResolver musicMainResolver;
+        private YandexMusicMainResolver? musicMainResolver;
         private int trackIndex;
-        private string trackUrl;
+        private string? trackUrl;
 
         private bool isManuallyStopped;
         private bool isMinimalModeVisible = true;
@@ -41,7 +32,7 @@ namespace YaMusic.Minimal.ViewModels
 
         public ObservableCollection<TrackViewModel> Tracks { get; set; } = new();
 
-        public WaveOutEvent outputDevice;
+        public WaveOutEvent? outputDevice;
 
         #region Commands
 
@@ -152,7 +143,7 @@ namespace YaMusic.Minimal.ViewModels
         {
             var httpClient = new HttpClient();
             var authService = new YandexMusicAuthService(httpClient);
-            var credentialProvider = new YandexCredentialsProvider(authService, "Secrets.Token", true);
+            var credentialProvider = new YandexCredentialsProvider(authService, Secrets.Login, Secrets.Password, Secrets.Token);
             musicMainResolver = new YandexMusicMainResolver(credentialProvider, httpClient);
 
             var playlist = await musicMainResolver.PlaylistLoader.LoadPlaylist("Isfandiyor2005", "1004");
@@ -166,7 +157,7 @@ namespace YaMusic.Minimal.ViewModels
             outputDevice.Init(new MediaFoundationReader(trackUrl));
         }
 
-        private async void OutputDevice_PlaybackStopped(object sender, StoppedEventArgs e)
+        private async void OutputDevice_PlaybackStopped(object? sender, StoppedEventArgs e)
         {
             if (!isManuallyStopped)
             {
