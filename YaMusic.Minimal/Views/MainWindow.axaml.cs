@@ -69,15 +69,5 @@ namespace YaMusic.Minimal.Views
             ViewModel?.outputDevice.Stop();
             ViewModel?.outputDevice.Dispose();
         }
-
-        private async Task Minimize()
-        {
-            await Task.Delay(3000);
-            ViewModel.IsMinimalModeVisible = true;
-            ViewModel.IsStandardModeVisible = false;
-            ViewModel.IsFullModeVisible = false;
-            ViewModel.WindowHeight = 48;
-            ViewModel.WindowWidth = 48;
-        }
     }
 }
