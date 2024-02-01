@@ -3,7 +3,7 @@
         xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
     <Design.PreviewWith>
         <Border>
-          <StackPanel Spacing="5">
+          <StackPanel>
             <ThemeVariantScope RequestedThemeVariant="Light">
               <Border Background="{DynamicResource SystemAltHighColor}">
                 <Button Classes="media">
@@ -11,6 +11,7 @@
                 </Button>
               </Border>
             </ThemeVariantScope>
+            <Panel Height="10" Background="#ffcc00"/>
             <ThemeVariantScope RequestedThemeVariant="Dark">
               <Border Background="{DynamicResource SystemAltHighColor}">
                 <Button Classes="media">
